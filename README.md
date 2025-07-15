@@ -24,15 +24,15 @@ Sistema de automatización que transforma el registro manual de gastos en una ex
 1. **Registro de Gastos en Tiempo Real**  
    📱 Telegram → 🤖 n8n → 🧠 Gemini AI (Registro) → ✅ Validación → 📊 Google Sheets → 📤 Confirmación  
    
-   ![Flujo CLP Tracker](imagenes/flujo_clp_tracker.png)
+   ![Flujo CLP Tracker](imagenes/flujo_clp_tracker)
 
 2. **Análisis Estratégico Semanal**  
    🗓️ Disparador Semanal → 🤖 n8n → 📊 Google Sheets (Lectura) → 🧠 Gemini AI (Análisis) → 📤 Reporte a Telegram  
    
-   ![Flujo Analista Financiero](imagenes/flujo_analista_financiero.png)
+   ![Flujo Analista Financiero](imagenes/flujo_analista_financiero)
 
 3. **Interacción con el Bot de Telegram**  
-   ![Funcionamiento Telegram](imagenes/funcionamiento_telegram.png)
+   ![Funcionamiento Telegram](imagenes/funcionamiento_telegram)
 ---
 
 ## 🛠️ Funcionalidades Principales
