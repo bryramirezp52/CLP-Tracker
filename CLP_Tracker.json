@@ -1,0 +1,547 @@
+{
+  "name": "💸 CLP Tracker",
+  "nodes": [
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"fecha_gasto\": \"{{$now.setZone('America/Santiago').toFormat('dd/LL/yyyy')}}\",\n  \"fecha_iso\":   \"{{$now.toUTC().toISO()}}\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -420,
+        -440
+      ],
+      "id": "858774a2-fe73-40bc-8ed1-358e950dcb0f",
+      "name": "Añadir Fecha Local"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4f27e21a-2174-4524-976c-86e9abc8b9eb",
+              "leftValue": "={{ $json.message.text }}\n",
+              "rightValue": "=",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -760,
+        -220
+      ],
+      "id": "2c8989eb-7bc2-472e-ad29-185ff269a7bc",
+      "name": "Validar Mensaje"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1000,
+        -220
+      ],
+      "id": "b811f669-2b04-43d5-8e21-301f1896a9f5",
+      "name": "Entrada Telegram",
+      "webhookId": "8c873f41-d5cc-4cdc-805f-06c49f70bb31",
+      "credentials": {
+        "telegramApi": {
+          "id": "3ddirRaWLPkruRYm",
+          "name": "GastosCLP_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "6453444815",
+        "text": "=📌 Se registró un gasto de {{ $json.descripcion }} por ${{ $json.monto }} CLP.  \n\n🏷️ Categoría: {{ $json.categoria }} → {{ $json.subcategoria }}\n\n📅 Fecha: {{ $json.fecha_gasto }}\n\n📎 ID del mensaje: {{ $json.message_id }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1480,
+        -420
+      ],
+      "id": "a7967c0b-6592-4e9d-9f35-09ab6eda1e53",
+      "name": "Confirmación Telegram",
+      "webhookId": "bbcd85d3-87fa-4777-ba52-7d0ecaa2d296",
+      "credentials": {
+        "telegramApi": {
+          "id": "3ddirRaWLPkruRYm",
+          "name": "GastosCLP_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1cTIk-uuTbstBrDZADO-MJVHjsfSjddHG9tyOqXowAos",
+          "mode": "list",
+          "cachedResultName": "GastosCLP",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cTIk-uuTbstBrDZADO-MJVHjsfSjddHG9tyOqXowAos/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "DATA",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cTIk-uuTbstBrDZADO-MJVHjsfSjddHG9tyOqXowAos/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "monto": "={{ $json.gastos.monto }}",
+            "categoria": "={{ $json.gastos.categoria }}",
+            "descripcion": "={{ $json.gastos.descripcion }}",
+            "moneda": "={{ $json.gastos.moneda }}",
+            "fecha_iso": "={{ $json.gastos.fecha_iso }}",
+            "fecha_gasto": "={{ $json.gastos.fecha_gasto }}",
+            "subcategoria": "={{ $json.gastos.subcategoria }}",
+            "message_id": "={{ $json.gastos.message_id }}",
+            "impulsor_conductual": "={{ $json.gastos.impulsor_conductual }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "message_id",
+              "displayName": "message_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fecha_gasto",
+              "displayName": "fecha_gasto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fecha_iso",
+              "displayName": "fecha_iso",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "monto",
+              "displayName": "monto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "moneda",
+              "displayName": "moneda",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "descripcion",
+              "displayName": "descripcion",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "categoria",
+              "displayName": "categoria",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "subcategoria",
+              "displayName": "subcategoria",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "impulsor_conductual",
+              "displayName": "impulsor_conductual",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1200,
+        -520
+      ],
+      "id": "2828cede-ba66-4454-85f7-a94189ebebbe",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "26dsaZhbOsn4mCNe",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "6453444815",
+        "text": "⚠️ No se detectó texto válido. Este bot solo funciona con mensajes escritos que describan un gasto, como: me compré un jugo por 1500 Por favor, intenta de nuevo con una descripción clara en texto.",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -420,
+        -200
+      ],
+      "id": "75c8cee7-7ea4-4de2-bf38-5d58fd8d88ed",
+      "name": "Rechazo1",
+      "webhookId": "1d9ec352-8fc8-4db9-95e8-65662a1a4404",
+      "credentials": {
+        "telegramApi": {
+          "id": "3ddirRaWLPkruRYm",
+          "name": "GastosCLP_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "6453444815",
+        "text": "🤔 No logré entender el gasto. Asegúrate de incluir una descripción y un monto, por ejemplo: jugo natural 1500 o Metro al centro 900. Si el mensaje no contiene precio o es muy vago, no puedo registrarlo.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1200,
+        -300
+      ],
+      "id": "aef9d19a-8088-428e-b7c1-034ac5e71876",
+      "name": "Rechazo2",
+      "webhookId": "b24444b4-1415-4925-a2ff-d1af96dd699c",
+      "credentials": {
+        "telegramApi": {
+          "id": "3ddirRaWLPkruRYm",
+          "name": "GastosCLP_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "gastos",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        560,
+        -440
+      ],
+      "id": "7d6c1a58-6957-4ebe-8798-01bdc168ffdc",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "04fb1eaa-7699-4e83-992d-31d4fffadd07",
+              "leftValue": "={{ $json.gastos.categoria }}",
+              "rightValue": "N/A",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "f4c59c4a-9625-40c7-a550-1aed9154f00e",
+              "leftValue": "={{ $json.gastos.monto }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        780,
+        -440
+      ],
+      "id": "6d76736b-15e6-423b-a58d-55eeefae7775",
+      "name": "Es gasto válido"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message.from.id }}",
+        "text": "Ingreso detectado. Estamos procesándolo... 🔄 Esto puede tomar unos segundos.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -420,
+        -620
+      ],
+      "id": "bb02d478-1523-49e0-8b18-efc0c3ecc581",
+      "name": "Telegram",
+      "webhookId": "ebe407ac-8f07-4fee-9fdc-27ca1c58954f",
+      "credentials": {
+        "telegramApi": {
+          "id": "3ddirRaWLPkruRYm",
+          "name": "GastosCLP_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        -200
+      ],
+      "id": "f735701b-e819-4c46-96aa-a0b3ebbb52f8",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "zjLJ7w4F9CaChCsY",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Entrada Telegram').item.json.message.message_id }}###\n{{ $('Validar Mensaje').item.json.message.text }}###\n{{ $json.fecha_gasto }}###\n{{ $json.fecha_iso }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=Eres un asistente de finanzas personales altamente preciso y estructurado. Tu única función es analizar el texto de un usuario que describe uno o varios gastos y transformarlo en un array de objetos JSON válidos, sin añadir ningún texto, explicación o saludo adicional. Tu respuesta debe ser exclusivamente un array JSON.\n\n### CONTEXTO DE ENTRADA\nRecibirás una cadena de texto con 4 partes separadas por \"###\":\n1. message_id: El ID del mensaje de Telegram.\n2. texto_usuario: El mensaje original del usuario. Este texto puede contener una descripción del gasto seguida de una nota contextual separada por \";\" o \",\".\n3. fecha_gasto: La fecha del gasto en formato DD-MM-YYYY.\n4. fecha_iso: La fecha del gasto en formato ISO 8601.\n\n### TAREA\nAnaliza el `texto_usuario` para extraer uno o varios gastos. Cada gasto debe tener una clasificación funcional (`categoria`, `subcategoria`) y una clasificación conductual (`impulsor_conductual`). Si detectas múltiples montos, genera un objeto JSON por cada uno. Todos deben mantener el mismo `message_id`, `fecha_gasto` y `fecha_iso`.\n\n### REGLAS ESTRICTAS\n1. **Formato de salida:** Tu única salida debe ser un array JSON de uno o más objetos.\n\n2. **Estructura esperada de cada objeto:**\n{\n  \"message_id\": number,\n  \"fecha_gasto\": \"string\",\n  \"fecha_iso\": \"string\",\n  \"monto\": number,\n  \"moneda\": \"string\",\n  \"descripcion\": \"string\",\n  \"categoria\": \"string\",\n  \"subcategoria\": \"string\",\n  \"impulsor_conductual\": \"string\"\n}\n\n3. **Extracción de datos:**\n- `monto`: Extrae únicamente los valores numéricos. Convierte expresiones como \"1.500\", \"1500 pesos\", \"12 lucas\", \"10 mil\", \"18k\" en enteros. Convierte números escritos en palabras. Redondea hacia arriba montos menores a 1000 CLP.\n- `moneda`: Usa siempre \"CLP\".\n- `descripcion`: Resume el ítem principal del gasto en una frase clara (máx. 40 caracteres). No incluyas la nota contextual en la descripción.\n\n4. **Clasificación (Doble Eje):**\n\n**4.1. Clasificación Funcional (El Qué):**\n- Asigna `categoria` y `subcategoria` exclusivamente según la siguiente taxonomía.\n- Si el gasto no encaja claramente, usa: \"categoria\": \"Misceláneos o Otros\" y \"subcategoria\": \"Inclasificables o Excepcionales\".\n\nTAXONOMÍA FUNCIONAL VÁLIDA:\n{\n  \"Vivienda\": [\"Arriendo o Hipoteca\", \"Cuentas Básicas\", \"Internet o Teléfono\", \"Mantenimiento del Hogar\", \"Electrodomésticos\"],\n  \"Alimentación\": [\"Supermercado\", \"Restaurantes o Cafeterías\", \"Delivery\", \"Snacks o Café\", \"Bebidas\"],\n  \"Transporte\": [\"Transporte Público\", \"Apps de Movilidad\", \"Combustible\", \"Peajes\", \"Mantención de Vehículo\"],\n  \"Vestuario\": [\"Prendas\", \"Calzado\", \"Segunda Mano\"],\n  \"Salud\": [\"Farmacia o Medicamentos\", \"Consultas Médicas o Dentales\", \"Exámenes o Tratamientos\"],\n  \"Finanzas Personales\": [\"Pago de Créditos o Deudas\", \"Ahorro o Inversión\", \"Comisiones o Impuestos\"],\n  \"Cuidado Personal\": [\"Peluquería o Barbería\", \"Productos de Higiene o Cosmética\", \"Gimnasio o Actividad Física\"],\n  \"Educación y Formación\": [\"Libros o Cursos\", \"Material Académico\", \"Certificaciones o Suscripciones Educativas\"],\n  \"Tecnología\": [\"Dominios o Hosting\", \"Suscripciones IT\", \"Seguros Tech\"],\n  \"Ocio y Entretenimiento\": [\"Streaming o Suscripciones\", \"Salidas o Fiestas\", \"Hobbies\"],\n  \"Hogar\": [\"Electrodomésticos\", \"Muebles\", \"Artículos de Limpieza\"],\n  \"Regalos y Donaciones\": [\"Regalos Hechos\", \"Aportes o Donaciones\"],\n  \"Servicios ocasionales\": [\"Baños Públicos\", \"Propinas\"],\n  \"Misceláneos o Otros\": [\"Inclasificables o Excepcionales\"]\n}\n\n**4.2. Clasificación Conductual (El Porqué):**\n- Asigna el `impulsor_conductual` usando la nota contextual proporcionada por el usuario después de un \";\" o \"|\".\n- Si no hay nota, infiere la opción más probable basándote en la descripción del gasto.\n- Si es imposible determinarlo, usa el valor \"N/A\".\n\nTAXONOMÍA CONDUCTUAL VÁLIDA:\n- **`Necesidad Ineludible`**: Gastos no negociables para funcionar (Ej: arriendo, cuentas, supermercado semanal).\n- **`Inversión Estratégica`**: Gastos con retorno futuro esperado en conocimiento, carrera o proyectos (Ej: cursos, libros, software, APIs).\n- **`Mantenimiento / Mejora Planificada`**: Gastos deseados y presupuestados que mejoran la calidad de vida o herramientas (Ej: zapatillas nuevas, un monitor planeado).\n- **`Gratificación / Impulso Reactivo`**: Compra no planificada, gatillada por un estímulo o antojo (Ej: oferta de gadget, postre no planeado).\n- **`Confort / Evasión Emocional`**: Gasto para regular un estado de ánimo negativo (estrés, ansiedad, aburrimiento) (Ej: delivery por cansancio, compra online para procastinar).\n- **`Compromiso Social`**: Gasto por presión o convención social (Ej: regalo por compromiso, salida grupal cara).\n\n5. **Manejo de Errores y Casos Complejos:**\n- Si el `texto_usuario` no parece describir ningún gasto, devuelve un array con un solo objeto:\n[\n  {\n    \"message_id\": [ID del mensaje],\n    \"fecha_gasto\": \"[Fecha del mensaje]\",\n    \"fecha_iso\": \"[Fecha ISO del mensaje]\",\n    \"monto\": 0,\n    \"moneda\": \"CLP\",\n    \"descripcion\": \"N/A\",\n    \"categoria\": \"N/A\",\n    \"subcategoria\": \"N/A\",\n    \"impulsor_conductual\": \"N/A\"\n  }\n]\n- **Ejemplo de Gasto Dividido con Contexto:**\n  - **Input:** `texto_usuario: \"Uber 5500 para llegar a tiempo a la U | 10 lucas en comida china; estaba agotado y no quería cocinar\"`\n  - **Output Esperado (Dos Objetos JSON):**\n    [\n      {\n        \"message_id\": 123,\n        \"fecha_gasto\": \"23-06-2025\",\n        \"fecha_iso\": \"2025-06-23T23:25:22.000Z\",\n        \"monto\": 5500,\n        \"moneda\": \"CLP\",\n        \"descripcion\": \"Transporte en Uber\",\n        \"categoria\": \"Transporte\",\n        \"subcategoria\": \"Apps de Movilidad\",\n        \"impulsor_conductual\": \"Necesidad Ineludible\"\n      },\n      {\n        \"message_id\": 123,\n        \"fecha_gasto\": \"23-06-2025\",\n        \"fecha_iso\": \"2025-06-23T23:25:22.000Z\",\n        \"monto\": 10000,\n        \"moneda\": \"CLP\",\n        \"descripcion\": \"Comida China\",\n        \"categoria\": \"Alimentación\",\n        \"subcategoria\": \"Delivery\",\n        \"impulsor_conductual\": \"Confort / Evasión Emocional\"\n      }\n    ]\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -120,
+        -440
+      ],
+      "id": "d3c8aeb1-b174-405f-8b85-9ff201a1b150",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "jsCode": "try {\n  // 1) Captura el texto crudo que llega. Asumimos que sigue llegando en una propiedad similar.\n  const raw = $json.content || $json.message?.content || $json.output || '';\n\n  // 2) Define una expresión regular para encontrar y extraer el contenido de un bloque de código JSON.\n  // Esto busca ```json, captura todo lo que sigue (incluyendo saltos de línea) hasta el próximo ```\n  const regex = /```json\\s*([\\s\\S]*?)\\s*```/;\n  const match = raw.match(regex);\n\n  // 3) Si no encuentra un bloque de código, lanza un error.\n  if (!match || !match[1]) {\n    // Si no hay un bloque de código, quizás el JSON viene limpio. Intentamos parsear el input crudo como último recurso.\n    try {\n        const gastosFallback = JSON.parse(raw.trim());\n        if (!Array.isArray(gastosFallback)) throw new Error('El input no es un array ni un bloque de código JSON válido.');\n        return [{ json: { gastos: gastosFallback } }];\n    } catch (fallbackError) {\n        throw new Error('El input no contiene un bloque de código JSON válido.');\n    }\n  }\n\n  // 4) El JSON a parsear es el primer grupo capturado por la regex.\n  const limpio = match[1];\n  const gastos = JSON.parse(limpio);\n\n  // 5) Verifica que el resultado parseado sea un array.\n  if (!Array.isArray(gastos)) {\n    throw new Error('El contenido del bloque de código no es un array');\n  }\n\n  // 6) Devuelve el array de gastos.\n  return [{ json: { gastos } }];\n\n} catch (err) {\n  return [{\n    json: {\n      error: 'Error al parsear el JSON desde el bloque de código',\n      detalle: err.message,\n      raw_input: $json.content || $json.message?.content || $json.output || 'Input no disponible'\n    }\n  }];\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        280,
+        -440
+      ],
+      "id": "0c0c4fa2-d138-43ba-a41c-47b9a3909cd3",
+      "name": "Parsear JSON de Gemini"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Añadir Fecha Local": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar Mensaje": {
+      "main": [
+        [
+          {
+            "node": "Añadir Fecha Local",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Rechazo1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Entrada Telegram": {
+      "main": [
+        [
+          {
+            "node": "Validar Mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Confirmación Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Es gasto válido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Es gasto válido": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Rechazo2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Parsear JSON de Gemini",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parsear JSON de Gemini": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6d9d5588-758b-4ea3-adf9-b6567a3397f5",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b6ec43d1891e029640ff2d5f3af6bacf816730c8dde4539e05cc5b91b33b8ac5"
+  },
+  "id": "PaXw0HoDaKQk1dUB",
+  "tags": []
+}
