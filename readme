@@ -1,0 +1,43 @@
+# Automatización de Finanzas Personales con IA: De un Mensaje de Telegram a un Análisis Conductual
+
+He diseñado e implementado un sistema de automatización (**CLP Tracker**) que transforma la tediosa tarea de registrar gastos personales en una interacción conversacional fluida y potente. Utilizando **n8n**, **Telegram** y la **IA de Google (Gemini)**, este flujo de trabajo no solo captura en qué gasto mi dinero, sino *por qué* lo hago.
+
+## El Problema
+
+El registro manual de gastos es ineficiente, propenso a errores y, lo más importante, carece de contexto. Una hoja de cálculo puede decirte que gastaste `$15.000` en delivery, pero no si fue por comodidad tras un día agotador, por un impulso o para celebrar algo. Sin el "porqué", los datos son solo cifras, no información para la toma de decisiones.
+
+## La Solución: Un Flujo Inteligente en n8n
+
+Mi solución es un pipeline automatizado que:
+
+1. **Captura el Gasto por Telegram:** Simplemente envío un mensaje en lenguaje natural, como: `12 lucas en pizza; estaba demasiado cansado para cocinar`.
+
+2. **Procesa con IA (Google Gemini):** El núcleo del sistema. Un agente de IA con un prompt de ingeniería avanzada analiza el texto para:
+   * Extraer y normalizar el monto (entiende "lucas", "k", etc.).
+   * Generar una descripción limpia.
+   * Asignar una clasificación funcional (ej: `Alimentación → Delivery`) basada en una taxonomía estricta.
+   * Inferir y asignar un **impulsor conductual** (ej: `Confort / Evasión Emocional`) a partir del contexto del mensaje.
+
+3. **Valida y Estructura:** El sistema valida que la extracción de la IA sea coherente (monto > 0, categoría válida) antes de continuar.
+
+4. **Almacena en Google Sheets:** Cada gasto validado se registra como una nueva fila en una hoja de cálculo, ya enriquecido con ambas clasificaciones.
+
+5. **Confirma al Usuario:** Envía una notificación de vuelta a Telegram confirmando que el gasto ha sido registrado exitosamente.
+
+## Tecnologías Utilizadas
+
+* **Plataforma de Automatización:** n8n
+* **Interfaz de Usuario:** Telegram Bot
+* **Inteligencia Artificial:** Google Gemini (vía API)
+* **Base de Datos:** Google Sheets
+
+## ¿Por qué es relevante?
+
+Este proyecto es una aplicación práctica de mis habilidades en automatización e IA para resolver un problema personal y de desarrollo. Demuestra la capacidad de:
+
+* Diseñar e implementar flujos de trabajo complejos y lógicos.
+* Aplicar ingeniería de prompts para dirigir modelos de IA hacia resultados estructurados y precisos.
+* Integrar múltiples servicios (SaaS, APIs) para crear una solución cohesiva.
+* Ir más allá de la simple recolección de datos para generar *insights* accionables.
+
+Este no es solo un tracker de gastos; es un motor para entender los patrones de comportamiento que impulsan mis decisiones financieras.
